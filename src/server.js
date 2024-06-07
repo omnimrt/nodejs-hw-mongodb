@@ -5,6 +5,7 @@ import { ENV_VARS } from './constants/index.js';
 import { env } from './utils/env.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { router } from './routers/contacts.js';
 
 export const setupServer = () => {
   const app = express();
@@ -13,6 +14,8 @@ export const setupServer = () => {
 
   app.use(express.json());
   app.use(cors());
+
+  app.use(router);
 
   app.use(
     pino({
