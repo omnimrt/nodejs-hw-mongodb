@@ -6,7 +6,11 @@ export const getAllContacts = async () => {
 };
 
 export const getContactById = async (id) => {
+  console.log(`Service: Fetching contact with ID: ${id}`);
+
   const contact = await ContactsCollection.findById(id);
+  console.log(`Service: Fetched contact: ${contact}`);
+
   return contact;
 };
 

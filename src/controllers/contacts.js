@@ -1,4 +1,3 @@
-import createHttpError from 'http-errors';
 import {
   createContact,
   deleteContact,
@@ -6,6 +5,8 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
+import { isValidObjectId } from 'mongoose';
+import createHttpError from 'http-errors';
 
 export const getContactsController = async (req, res) => {
   const contacts = await getAllContacts();
@@ -16,11 +17,21 @@ export const getContactsController = async (req, res) => {
 };
 
 export const getContactByIdController = async (req, res, next) => {
-  const { contactId: id } = req.params;
-  const contact = await getContactById(id);
+  const { contactId } = req.params;
+
+  console.log(`Controller: Fetching contact with ID: ${contactId}`);
+
+  if (!isValidObjectId(contactId)) {
+    return next(createHttpError(400, 'Invalid contact id!'));
+  }
+
+  const contact = await getContactById(contactId);
+  console.log(`Controller: Fetched contact: ${contact}`);
 
   if (!contact) {
-    next(
+    console.log('Controller: Contact not found');
+
+    return next(
       createHttpError({
         status: 404,
         message: `Contact not found!`,
@@ -31,7 +42,7 @@ export const getContactByIdController = async (req, res, next) => {
 
   res.status(200).json({
     data: contact,
-    message: `Successfully found contact with id ${id}!`,
+    message: `Successfully found contact with id ${contactId}!`,
   });
 };
 
@@ -84,4 +95,10 @@ export const deleteContactController = async (req, res, next) => {
   }
 
   res.status(204).send();
+
+  // res.status(204).json({
+  //   status: 204,
+  //   message: 'Successfully deleted a contact!',
+  //   data: null,
+  // });
 };

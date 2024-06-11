@@ -18,4 +18,4 @@ router.post('/contacts', ctrlWrapper(createContactController));
 
 router.patch('/contacts/:contactId', ctrlWrapper(patchContactController));
 
-router.delete('/students/:contactId', ctrlWrapper(deleteContactController));
+router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
