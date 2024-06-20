@@ -5,7 +5,7 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
-import { isValidObjectId } from 'mongoose';
+// import { isValidObjectId } from 'mongoose';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
@@ -33,9 +33,9 @@ export const getContactsController = async (req, res) => {
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
 
-  if (!isValidObjectId(contactId)) {
-    return next(createHttpError(400, 'Invalid contact id!'));
-  }
+  // if (!isValidObjectId(contactId)) {
+  //   return next(createHttpError(400, 'Invalid contact id!'));
+  // }
 
   const contact = await getContactById(contactId);
 
